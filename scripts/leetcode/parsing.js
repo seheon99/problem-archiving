@@ -32,6 +32,26 @@ function leetcodeSubmissionId(pathname) {
 }
 
 /**
+ * 채점 결과를 묻는 요청의 주소에서 제출 번호를 읽습니다. 화면이 채점 중에 /submissions/detail/<번호>/check/ 를 거듭 부른다.
+ * (2026-11-24 의 화면은 /v2/check/ 를 쓴다)
+ * @param {string} pathname
+ * @returns {(number|null)}
+ */
+function leetcodeCheckSubmissionId(pathname) {
+  const match = /^\/submissions\/detail\/(\d+)\/(?:v\d+\/)?check\/?$/.exec(pathname);
+  return match ? Number(match[1]) : null;
+}
+
+/**
+ * 아직 채점이 끝나지 않은 제출인지 봅니다: 제출이 없거나, 결과·코드가 비었거나, 채점 중 코드다.
+ * @param {object} details - submissionDetails
+ * @returns {boolean}
+ */
+function isLeetcodeJudging(details) {
+  return typeof details?.statusCode !== 'number' || details.statusCode === LEETCODE_JUDGING || isNull(details.code);
+}
+
+/**
  * 올릴 제출인지 봅니다: 정답이고, 코드가 있고, 최근에 낸 것.
  * @param {object} details - submissionDetails
  * @param {number} now - 지금 시각 (ms)

@@ -3,6 +3,9 @@
 /* submissionDetails 의 statusCode 가 이 값이면 정답(Accepted)이다 */
 const LEETCODE_ACCEPTED = 10;
 
+/* 채점 중인 제출의 statusCode. 코드는 이미 채워져 있고, 1초 남짓 뒤 결과 코드로 바뀐다 (2026-11-24 에 확인) */
+const LEETCODE_JUDGING = 16;
+
 /* 이 시간 안에 낸 제출만 올린다(ms). 예전 제출 페이지를 다시 열었을 때 옛 풀이를 올리지 않기 위해서다. */
 const LEETCODE_FRESH_MS = 60 * 60 * 1000;
 

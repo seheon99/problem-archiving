@@ -38,12 +38,28 @@ test('제출 번호는 새 화면과 예전 화면의 제출 주소에서만 읽
   assert.equal(context.leetcodeSubmissionId('/problems/two-sum/description/'), null);
 });
 
+test('채점 결과를 묻는 요청의 주소에서 제출 번호를 읽는다', () => {
+  assert.equal(context.leetcodeCheckSubmissionId('/submissions/detail/2202544612/v2/check/'), 2202544612);
+  assert.equal(context.leetcodeCheckSubmissionId('/submissions/detail/42/check/'), 42);
+  assert.equal(context.leetcodeCheckSubmissionId('/submissions/detail/42/'), null);
+  assert.equal(context.leetcodeCheckSubmissionId('/problems/two-sum/submit/'), null);
+});
+
 test('정답이고 최근에 낸 제출만 올린다', () => {
   assert.equal(context.isLeetcodeUploadable(DETAILS, NOW), true);
   assert.equal(context.isLeetcodeUploadable({ ...DETAILS, statusCode: 11 }, NOW), false); // Wrong Answer
   assert.equal(context.isLeetcodeUploadable({ ...DETAILS, timestamp: Math.floor(NOW / 1000) - 2 * 3600 }, NOW), false);
   assert.equal(context.isLeetcodeUploadable({ ...DETAILS, code: '' }, NOW), false);
   assert.equal(context.isLeetcodeUploadable(null, NOW), false);
+  assert.equal(context.isLeetcodeUploadable({ ...DETAILS, statusCode: 16 }, NOW), false); // 채점 중
+});
+
+test('채점 중(16)이거나 결과가 비었으면 채점이 끝나지 않은 것으로 본다', () => {
+  assert.equal(context.isLeetcodeJudging({ ...DETAILS, statusCode: 16, runtimeDisplay: 'N/A' }), true);
+  assert.equal(context.isLeetcodeJudging({ ...DETAILS, code: null }), true);
+  assert.equal(context.isLeetcodeJudging(null), true);
+  assert.equal(context.isLeetcodeJudging(DETAILS), false);
+  assert.equal(context.isLeetcodeJudging({ ...DETAILS, statusCode: 11 }), false); // Wrong Answer 는 끝난 결과
 });
 
 test('업로드 데이터: 난이도 폴더, 제목 파일, 성능·분류가 담긴 README (문제 본문은 싣지 않는다)', async () => {
