@@ -77,11 +77,13 @@ describe('manifest 콘텐츠 스크립트 번들', () => {
     assert.match(errors[0], /b\.js: .*uploadState/);
   });
 
-  test('페이지 컨텍스트 스크립트(statusrefresh.js, submitfilter.js)는 BOJ 출처에만 웹 접근 가능으로 열고, 콘텐츠 스크립트에는 "world" 키가 없다', () => {
-    for (const file of ['scripts/baekjoon/statusrefresh.js', 'scripts/baekjoon/submitfilter.js']) {
+  test('페이지 컨텍스트 스크립트는 자기 사이트 출처에만 웹 접근 가능으로 열고, 콘텐츠 스크립트에는 "world" 키가 없다', () => {
+    const boj = ['https://www.acmicpc.net/*', 'https://acmicpc.net/*'];
+    const origins = { 'scripts/baekjoon/statusrefresh.js': boj, 'scripts/baekjoon/submitfilter.js': boj, 'scripts/leetcode/submitwatch.js': ['https://leetcode.com/*'] };
+    for (const [file, matches] of Object.entries(origins)) {
       const entries = manifest.web_accessible_resources.filter((entry) => entry.resources.includes(file));
       assert.equal(entries.length, 1, file);
-      assert.deepEqual(entries[0].matches, ['https://www.acmicpc.net/*', 'https://acmicpc.net/*']);
+      assert.deepEqual(entries[0].matches, matches);
       assert.ok(manifest.content_scripts.every((entry) => !('world' in entry) && !entry.js.includes(file)));
     }
   });

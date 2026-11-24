@@ -304,7 +304,7 @@ function flashSaved() {
   savedTimer = setTimeout(() => { el.textContent = ''; }, 1500);
 }
 
-const TEMPLATE_PLATFORMS = ['baekjoon', 'programmers', 'swea', 'jungol', 'doj'];
+const TEMPLATE_PLATFORMS = ['baekjoon', 'programmers', 'swea', 'jungol', 'doj', 'leetcode'];
 const templateKey = (platform) => `BaekjoonHub_dirTemplate_${platform}`;
 
 const TEMPLATE_PREVIEW_VARS = {
@@ -313,6 +313,7 @@ const TEMPLATE_PREVIEW_VARS = {
   swea:        { platform: 'SWEA', level: 'D4', id: '1234', title: '문제제목', language: 'Java' },
   jungol:      { platform: '정올', level: 'Bronze', levelFull: 'Bronze V', id: '1000', title: '두 정수 더하기', language: 'C++' },
   doj:         { platform: 'DOJ', level: 'Silver', levelFull: 'Silver V', id: '1', title: '레몬 게임', language: 'C++' },
+  leetcode:    { platform: 'LeetCode', level: 'Easy', id: '1', title: 'Two Sum', language: 'Python' },
 };
 
 const TEMPLATE_DEFAULTS = {
@@ -321,6 +322,7 @@ const TEMPLATE_DEFAULTS = {
   swea:        '${platform}/${level}/${id}. ${title}',
   jungol:      '${platform}/${level}/${id}. ${title}',
   doj:         '${platform}/${level}/${id}. ${title}',
+  leetcode:    '${platform}/${level}/${id}. ${title}',
 };
 
 function updateTemplatePreview(platform) {
