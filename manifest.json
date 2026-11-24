@@ -242,7 +242,8 @@
         "https://leetcode.com/*"
       ],
       "css": [
-        "css/toast.css"
+        "css/toast.css",
+        "css/leetcode.css"
       ],
       "js": [
         "library/sha1.min.js",
@@ -258,6 +259,7 @@
         "scripts/upload.js",
         "scripts/enable.js",
         "scripts/leetcode/variables.js",
+        "scripts/leetcode/progress.js",
         "scripts/leetcode/parsing.js",
         "scripts/leetcode/uploadfunctions.js",
         "scripts/leetcode/leetcode.js"
