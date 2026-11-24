@@ -288,6 +288,26 @@ function tierName(tier) {
   return `${['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Ruby'][Math.floor((tier - 1) / 5)]} ${['V', 'IV', 'III', 'II', 'I'][(tier - 1) % 5]}`;
 }
 
+/**
+ * 확장 파일을 페이지의 JS 세계에서 돌도록 <script> 요소로 넣는다(콘텐츠 스크립트는 격리된 세계라 페이지의 객체가 안 보인다).
+ * 요소 id 로 페이지당 한 번만 넣고(콘텐츠 스크립트가 한 번 더 떠도 두 벌이 되지 않는다), 실패해도 호출한 쪽을 멈추지 않는다.
+ * 파일은 manifest 의 web_accessible_resources 에 있어야 한다.
+ * @param {string} id - 요소 id
+ * @param {string} file - 확장 루트 기준 경로
+ */
+function injectPageScript(id, file) {
+  try {
+    if (document.getElementById(id)) return;
+    const script = document.createElement('script');
+    script.id = id;
+    script.src = chrome.runtime.getURL(file);
+    script.onerror = () => console.warn(`${file} 을 불러오지 못했습니다.`);
+    (document.head || document.documentElement).appendChild(script);
+  } catch (error) {
+    console.warn(`${file} 을 페이지에 넣지 못했습니다.`, error);
+  }
+}
+
 function log(...args) {
   if (debug) console.log(...args)
 }

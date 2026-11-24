@@ -9,7 +9,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 
-const UTIL = path.join(__dirname, '..', 'scripts', 'baekjoon', 'util.js');
+const UTIL = path.join(__dirname, '..', 'scripts', 'util.js');
 
 test('injectPageScript: 불러오기에 실패하면 파일 이름이 든 경고를 한 번 남기고, 요소는 두고 다시 넣지 않는다', () => {
   const added = [];
